@@ -27,7 +27,8 @@ llm = ChatOpenAI(
 def GPT_response(text):
     try:
         response = llm.invoke(text)
-        answer = response['choices'][0]['text'].replace('。', '')
+        # Accessing the 'content' attribute directly since it's an AIMessage object
+        answer = response.content.replace('。', '')
         return answer
     except Exception as e:
         print(traceback.format_exc())
