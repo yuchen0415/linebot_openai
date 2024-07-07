@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
-
+from langchain_openai import ChatOpenAI
 #======python的函數庫==========
 import tempfile, os
 import datetime
@@ -24,11 +24,19 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
-
+os.environ['NVIDIA_API_KEY'] = 'NVIDIA_API_KEY' 
+llm = ChatOpenAI(
+            model="meta/llama3-70b-instruct",
+            openai_api_key=os.environ["NVIDIA_API_KEY"],
+            openai_api_base="https://integrate.api.nvidia.com/v1",
+            temperature=0.5,
+            max_tokens=1024,
+            model_kwargs={"top_p": 1},
+        )
 
 def GPT_response(text):
     # 接收回應
-    response = openai.Completion.create(model="meta/llama3-70b-instruct",openai_api_base="https://integrate.api.nvidia.com/v1", prompt=text, temperature=0.5, max_tokens=500)
+    answer = llm.invoke(text)
     print(response)
     # 重組回應
     answer = response['choices'][0]['text'].replace('。','')
