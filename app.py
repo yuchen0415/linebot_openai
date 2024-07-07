@@ -11,7 +11,7 @@ from langchain_openai import ChatOpenAI
 #======python的函數庫==========
 import tempfile, os
 import datetime
-import openai
+# import openai
 import time
 import traceback
 #======python的函數庫==========
