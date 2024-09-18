@@ -21,7 +21,7 @@ llm = ChatOpenAI(
     openai_api_base="https://integrate.api.nvidia.com/v1",
     temperature=0.5,
     max_tokens=1024,
-    model_kwargs={"top_p": 1},
+    top_p = 1,
 )
 
 def GPT_response(text):
